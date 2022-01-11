@@ -1,0 +1,24 @@
+---
+- name: 
+  hosts: servers
+  become: true
+  tasks: 
+    - name: apt update and upgrade
+      apt:
+        update_cache: yes
+        upgrade: yes
+    - name: apt install java
+      apt: 
+        name: default-jre
+        state: latest
+        cache_valid_time: 3600
+    - name: mod server download
+      get_url: 
+        url: url=https://mohistmc.com/builds/1.16.5/mohist-1.16.5-910-server.jar 
+        dest: ~/mohist-1.16.5-910-server.jar
+        checksum: md5:3507d640f85017d03800fa03f0026964 
+        force: True
+    - name: agree to EULA
+      shell: echo "eula=true" > ./eula.txt
+    - name: start server 
+      shell: java -Xms1024M -Xmx4096M -jar mohist-1.16.5-910-server.jar nogui
