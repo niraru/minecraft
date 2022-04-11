@@ -1,2 +1,4 @@
 # terraform vars file
 *.tfvars
+# discordsrv config file
+
